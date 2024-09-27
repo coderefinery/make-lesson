@@ -53,3 +53,9 @@ dkms.conf
 
 # vim temporary files
 .*.sw?
+
+# html build directory
+_build/
+
+# applte temporary files
+.DS_Store

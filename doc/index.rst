@@ -13,3 +13,5 @@ Welcome to Makefile's documentation!
    simple-makefile.md
    rules.md
    other_makefiles.md
+   exercise.md
+   resources.md
