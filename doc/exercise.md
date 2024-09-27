@@ -77,7 +77,21 @@ the .PHONY statement, like this:
 .PHONY: clean all install
 CFLAGS=-I include
 ```
-- **Step 4**: Rerun `make` and observe how the build of the executable completes:
+
+- **Step 4**: Rerun `make` and observe how the build of `calculation.c` completes, but the build
+of the executable fails due to missing of `module.o`:
+`make: *** No rule to make target module.o, needed by calculation.exe.  Stop.`
+```sh
+make
+```
+
+- **Step 5**: Edit the `makefile` again and replace `module.o` with `sin.o cos.o` as
+dependencies for `calculatione.exe`.
+```makefile
+# The calculation.exe target in the Makefile
+calculation.exe: calculation.o sin.o cos.o
+	$(CC) $(CFLAGS) $^ -o $@
+```
 ```sh
 make
 ls
