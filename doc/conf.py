@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Example'
-copyright = 'workshop participant'
-author = 'workshop participant'
+project = 'A lesson about make'
+copyright = 'Coderefinery'
+author = 'Bjoern Lindi'
 release = '0.1'
 
 
