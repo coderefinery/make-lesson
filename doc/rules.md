@@ -105,6 +105,40 @@ In the above example we have two-line script. With `define` the variable can con
 Conseqeuently, we call it a macro to disguish from a single line variable.
 
 
+## Functions
+There is a range of functions define in `make`. Functions for transforming text is described in the 
+[GNU Make documentation](https://www.gnu.org/software/make/manual/make.html#Functions). Functions are called 
+just like variables, but often have arguments in addtion:
+```makefile
+$(function-name arguments)
+```
+You can also define your own functions. Own-defined functions are invoked ved the `call` command. Here is
+an example from Managing Projects with GNU Make, defining a function to terminate a process:
+```makefile
+AWK        := awk
+KILL       := kill
+KILL_FLAGS := -f
+PS         := ps
+PS_FLAGS   := -W
+PS_FIELDS  := "9 47 100"
+
+# $(call kill-program, awk-pattern)
+define kill-program
+    @ $(PS) $(PS_FLAGS) |                                \
+    $(AWK 'BEGIN { FIELDWIDTHS = $(PS_FIELDS) }          \
+           /$1/ {                                        \
+                  print "Killing " $$3;                  \
+                  system( "$(KILL) $(KILL_FLAGS) " $$1 ) \
+                }'
+endef
+```
+The function is called with the `call` command. Here we kill a vim process before compile a C-file:
+```makefile
+%.o: %c
+    $(call kill-program, vim)
+    $(CC) $(CFLAGS) -c $< -o $@
+
+
 ## Rules
 The rule governing the building of the hello world program was so called _explicit_ rule. There are other
 types of rules as well, and we will be going through these now:
@@ -273,6 +307,3 @@ One of them is how to make a executable from binary object files:
 
 This tells `make` to invoke the linker to link all the prerequisites together with possible other libraries
 to produce the target executable.
-
-- macro
-- functions
