@@ -1,13 +1,80 @@
-# Rules
+# Variables, Functions, Rules and a exampel with vpath
+In following we will go through `make` variables, functions and rules. We will also visit an upated
+example of the `hello world` program.
+
+## Variables
+A variable is a name defined in a makefile to represent a string of text, called the variable's
+value. These values are substitued by explicit request into targets, prerequisites, recipes, and
+other parts of the makefile. By convention are variables that are internal to the makefile lowercased.
+Variables that might be set from the command line are uppercased.
+
+### Variable References
+A variable name must be surrounded by $() or ${} to be recognized by make. Variables are case-sensitive,
+hence $(CC) and $(cc) refer to two different variables. 
+```makefile
+objects = program.o foo.o utils.o
+program : $(objects)
+    cc -o program $(objects)
+    
+$(objects) : defs.h
+```
+One type of variable that do not require parentheses is the single character variable.
+
+### Simple Variable
+A *simply expanded* variable is defined using ':=' assignment operator. Any make variable references
+in the righthand side are expanded and the resulting text saved as the value of the variable upon 
+reading the line from the `makefile`. The variable is not updated again however many times it is
+referenced.
+```makefile
+MAKE_DEPEND := $(CC) -M
+```
+
+### Recursive Variable
+The variable `$(object)` in the example above is a *recursively expanded* variable. Variables of this
+sort are defined by using '='. For a *recursive variable* the righthandside is read without being
+expanded. The expansion of the variable happens when it is used. The variable is re-evaluated upon
+every time it is used. Consequently, the content of a *recursive variable* may change during
+the course of a `makefile`.
+
+### Conditional Variable
+```makefile
+# Put all generated files in the directory $(PROJECT_DIR)/bin.
+OUTPUT_DIR ?= $(PROJECT_DIR)/bin
+```
+The '?=' operator is called the *conditional variable assignment operator*. Here the the assignment is
+performed only if the variable does not yet hava a value.
+
+### Automatic variables
+There are seven automatic variables. Automatic variables are set by `make` after a rules is matched.
+They provide access to elements from the target and prerequisite lists. It this way you don't have
+to explictily specify any filenames.
+
+| Variable | Function                                                                           |
+| -------- | --------                                                                           |
+| $@       | The filename representing the target                                               |
+| $%       | The filename element of an archive member specification                            |
+| $<       | The filename of the first prerequisite                                             |
+| $?       | The names of all prerequisites that are newer than the target, separated by spaces |
+| $^       | The filenames all the prerequisites, separated by spaces                           |
+| $+       | Similar to $^ except that $+ include duplicates                                    |
+| $*       | The stem of the target filename.                                                   |
+
+These seven variables have variants that get just the file's directory name or just the file name within
+the directory. The variant variables names are formed by appending 'D' or 'F'. These variant variables are 
+more than one character long and so must be enclosed in parentheses, i.e. $(@D), $(@F). 
+See [GNU Make Automatic variables](https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html)
+
+
+## Rules
 The rule governing the building of the hello world program was so called _explicit_ rule. There are other
 types of rules as well, and we will be going through these now:
 - explicit rules
 - pattern rules
 - implicit rules
 
-## Explict rules
+### Explict rules
 
-### wildcards
+#### wildcards
 `make` supports wildcards, also known as globbing.`make`'s wildcards are identical to the Bourne shell's.
 Instead of listing all the files in a program explicitly, you can use wildcards together with automatic
 variables (We will going through automatic variables in a moment):
@@ -42,7 +109,7 @@ Many _makefiles_ include a set of standard phony targes. The table list these:
 | `check`     | Run any tests associated with this application                            |
 |             |                                                                           |
 
-### empty targets
+#### empty targets
 An _empty target_ is similar to phony targets; it is used to hold recipes for an action that you request
 explicitly. The purpose of the empty target file is to record when the rule's recipe was last executed.
 It does so because one of the commands in the recipe is a `touch` command to update the target file.
@@ -58,7 +125,7 @@ The command `make print`  will execute the `lpr` command if one of the source fi
 last `make print`. The automatic variable `$?` is used to print only those files that have changed.
 (We will discuss automatic variables in a moment)
 
-## Pattern rules
+### Pattern rules
 ```makefile
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -68,7 +135,7 @@ is considered a pattern for matching file names; the '%' can match any nonempty 
 characters match only themselves. The shown rule '%.o : %.c' says how to make any file `stem.o` from another
 file `stem.c`
 
-## Implicit rules
+### Implicit rules
 `make` has about 90 built-in implicit rules.  There are built-in pattern rules for C, C++, Pascal, Fortran,
 Modula, Texinfo, TEX, Emacs, Lisp, RCS and SCCS. The two last ones are version control systems. The implicit
 rules database can be listed with the command:
@@ -85,37 +152,7 @@ A interesting note is that this rule is not part of the implicti rulebase on my 
 make version 3.81, but it exists in the implicit rulebase on Linux with make version 4.3
 
 
-## Variables
-A variable have the syntax:
-```makefile
-$(variable-name)
-```
-A variable name must be surrounded by $() or ${} to be recognized by make. Variables are case-sensitive,
-hence $(CC) and $(cc) refer to two different variables. One type of variable that do
-not require parentheses is the single character variable. By convention are variables that are internal
-to the makefile lowercased. Variables that might be set from the command line are uppercased.
-
-### Automatic variables
-There are seven automatic variables. Automatic variables are set by `make` after a rules is matched.
-They provide access to elements from the target and prerequisite lists. It this way you don't have
-to explictily specify any filenames.
-
-| Variable | Function                                                                           |
-| -------- | --------                                                                           |
-| $@       | The filename representing the target                                               |
-| $%       | The filename element of an archive member specification                            |
-| $<       | The filename of the first prerequisite                                             |
-| $?       | The names of all prerequisites that are newer than the target, separated by spaces |
-| $^       | The filenames all the prerequisites, separated by spaces                           |
-| $+       | Similar to $^ except that $+ include duplicates                                    |
-| $*       | The stem of the target filename.                                                   |
-
-These seven variables have variants that get just the file's directory name or just the file name within
-the directory. The variant variables names are formed by appending 'D' or 'F'. These variant variables are 
-more than one character long and so must be enclosed in parentheses, i.e. $(@D), $(@F). 
-See [GNU Make Automatic variables](https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html)
-
-### vpath
+### An updated "Hello World!" example - introducing vpath
 In the following example we have reworked "Hello world"-example. The source files reside in a subdirectory `src`.
 The printf statement is moved to a function hello(), which is defined in a new file `module.c`.
 
