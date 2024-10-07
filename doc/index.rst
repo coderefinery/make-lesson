@@ -12,6 +12,5 @@ Welcome to a lesson about `make`!
 
    motivation.md
    rules.md
-   other_makefiles.md
    exercise.md
    resources.md
