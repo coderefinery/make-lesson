@@ -3,8 +3,6 @@ The rule governing the building of the hello world program was so called _explic
 types of rules as well, and we will be going through these now:
 - explicit rules
 - pattern rules
-- static pattern rules
-- suffix rules
 - implicit rules
 
 ## Explict rules
@@ -59,6 +57,32 @@ print: foo.c bar.c
 The command `make print`  will execute the `lpr` command if one of the source file has changed since the
 last `make print`. The automatic variable `$?` is used to print only those files that have changed.
 (We will discuss automatic variables in a moment)
+
+## Pattern rules
+```makefile
+%.o : %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+```
+A pattern rule looks like an ordinary rule, except that its target contains the character '%'. The target
+is considered a pattern for matching file names; the '%' can match any nonempty substring, while other
+characters match only themselves. The shown rule '%.o : %.c' says how to make any file `stem.o` from another
+file `stem.c`
+
+## Implicit rules
+`make` has about 90 built-in implicit rules.  There are built-in pattern rules for C, C++, Pascal, Fortran,
+Modula, Texinfo, TEX, Emacs, Lisp, RCS and SCCS. The two last ones are version control systems. The implicit
+rules database can be listed with the command:
+```sh
+make --print-data-base # This gives a long output!
+```
+The implicit rule for building an executable from object files looks like this:
+```makefile
+%: %.o
+#  commands to execute (built-in):
+	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) -o $@
+```
+A interesting note is that this rule is not part of the implicti rulebase on my Mac with
+make version 3.81, but it exists in the implicit rulebase on Linux with make version 4.3
 
 
 ## Variables
@@ -178,3 +202,5 @@ to produce the target executable.
 - conditional variable
 - append variable
 - target variable
+- static pattern rules
+- suffix rules
