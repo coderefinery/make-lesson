@@ -88,6 +88,23 @@ more than one character long and so must be enclosed in parentheses, i.e. $(@D),
 See [GNU Make Automatic variables](https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html)
 
 
+## Macro
+```makefile
+BIN    := /usr/bin
+PRINTF := $(BIN)/printf
+DF     := $(BIN)/df
+AWK    :- $(BIN)/awk
+
+define free-space
+    $(PRINTF) "Free disk space "
+    $(DF) . | $(AWK) 'NR == 2 { print $$4 }'
+endef
+```
+With `define - endef` command we can define a multiline variable, a variable that contains a script. 
+In the above example we have two-line script. With `define` the variable can contain embedded newlines.
+Conseqeuently, we call it a macro to disguish from a single line variable.
+
+
 ## Rules
 The rule governing the building of the hello world program was so called _explicit_ rule. There are other
 types of rules as well, and we will be going through these now:
