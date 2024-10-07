@@ -137,7 +137,7 @@ The function is called with the `call` command. Here we kill a vim process befor
 %.o: %c
     $(call kill-program, vim)
     $(CC) $(CFLAGS) -c $< -o $@
-
+```
 
 ## Rules
 The rule governing the building of the hello world program was so called _explicit_ rule. There are other
