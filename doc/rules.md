@@ -42,7 +42,30 @@ the course of a `makefile`.
 OUTPUT_DIR ?= $(PROJECT_DIR)/bin
 ```
 The '?=' operator is called the *conditional variable assignment operator*. Here the the assignment is
-performed only if the variable does not yet hava a value.
+performed only if the variable does not yet have a value.
+
+### Append variable
+The append assignment operator is '+='. This operator appends text to a variable. This operator is
+particularly useful for collecting values into a variable incrementally.
+```makefile
+CPPFLAGS += -DUSE_NEW_MALLOC=1
+```
+
+### Target variable
+You can define a variable for a specific target, such that the variable is valid only for the target:
+```makefile
+gui.o: CPPFLAGS += -DUSE_NEW_MALLOC=1
+gui.o: gui.h
+```
+While the *gui.o* target is being processed, the valu of CPPFLAGS will contain -DUSE_NEW_MALLOC=1 in
+addition to its original contents. When the *gui.o* target is finished, CPPFLAGS will be set back to
+its original value. The general syntax for target-specific variables is:
+```makefile
+target...: variable = value
+target...: variable := value
+target...: variable += value
+target...: variable ?= value
+```
 
 ### Automatic variables
 There are seven automatic variables. Automatic variables are set by `make` after a rules is matched.
@@ -234,10 +257,5 @@ One of them is how to make a executable from binary object files:
 This tells `make` to invoke the linker to link all the prerequisites together with possible other libraries
 to produce the target executable.
 
-- simple expanded variable
-- recursively expanded variable
-- conditional variable
-- append variable
-- target variable
-- static pattern rules
-- suffix rules
+- macro
+- functions
