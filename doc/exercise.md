@@ -65,13 +65,13 @@ starting point.
 
 - **Step 1**: Copy the `Makefile` from example 2 and execute make. You see that you get an error message
 from make: `make: *** No rule to make target `hello.o', needed by `hello.exe'.  Stop.`
-- **Step 2**: Open an editor (nano, vim) and replace references to `hello.exe` in the `Makefile`
-with `calculation.exe`, both as a target as a dependency. Execute `make` again and observe the
+- **Step 2**: Open an editor (nano, vim) and replace all references to `hello` in the `Makefile`
+with `calculation`, both as a target as a dependency. Execute `make` again and observe the
 erro message: `src/calculation.c:4:10: fatal error: 'example_math.h' file not found`
 This is an error message from the compilation of `calculation.c`. The compiler cannot find
 the include file `example_math.h` which resides in the subdirectory `include`.
 - **Step 3**: To find the include file, the compile needs to be told to look in the `include` subdirectory.
-We do this by adding the CFLAGS=-I include to the `Makefile`. Add it at the top of the `Makefile`, after
+We do this by adding the *CFLAGS=-I include* to the `Makefile`. Add it at the top of the `Makefile`, after
 the .PHONY statement, like this:
 ```makefile
 .PHONY: clean all install
