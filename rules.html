@@ -1,0 +1,495 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Variables, Functions, Rules and a exampel with vpath &mdash; A lesson about make 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2709fde1"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Exercise" href="exercise.html" />
+    <link rel="prev" title="Motivation" href="motivation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            A lesson about make
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="motivation.html">Motivation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Variables, Functions, Rules and a exampel with vpath</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#variables">Variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#variable-references">Variable References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simple-variable">Simple Variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#recursive-variable">Recursive Variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conditional-variable">Conditional Variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#append-variable">Append variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#target-variable">Target variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#automatic-variables">Automatic variables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#macro">Macro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rules">Rules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#explict-rules">Explict rules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#wildcards">wildcards</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#phony-targets">phony targets</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#empty-targets">empty targets</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pattern-rules">Pattern rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#implicit-rules">Implicit rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#an-updated-hello-world-example-introducing-vpath">An updated “Hello World!” example - introducing vpath</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercise.html">Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html">Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">A lesson about make</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Variables, Functions, Rules and a exampel with vpath</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/rules.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="variables-functions-rules-and-a-exampel-with-vpath">
+<h1>Variables, Functions, Rules and a exampel with vpath<a class="headerlink" href="#variables-functions-rules-and-a-exampel-with-vpath" title="Link to this heading"></a></h1>
+<p>In following we will go through <code class="docutils literal notranslate"><span class="pre">make</span></code> variables, functions and rules. We will also visit an upated
+example of the <code class="docutils literal notranslate"><span class="pre">hello</span> <span class="pre">world</span></code> program.</p>
+<section id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Link to this heading"></a></h2>
+<p>A variable is a name defined in a makefile to represent a string of text, called the variable’s
+value. These values are substitued by explicit request into targets, prerequisites, recipes, and
+other parts of the makefile. By convention are variables that are internal to the makefile lowercased.
+Variables that might be set from the command line are uppercased.</p>
+<section id="variable-references">
+<h3>Variable References<a class="headerlink" href="#variable-references" title="Link to this heading"></a></h3>
+<p>A variable name must be surrounded by $() or ${} to be recognized by make. Variables are case-sensitive,
+hence $(CC) and $(cc) refer to two different variables.</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">objects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>program.o<span class="w"> </span>foo.o<span class="w"> </span>utils.o
+<span class="nf">program </span><span class="o">:</span><span class="w"> </span><span class="k">$(</span><span class="nv">objects</span><span class="k">)</span>
+<span class="w">    </span>cc<span class="w"> </span>-o<span class="w"> </span>program<span class="w"> </span><span class="k">$(</span>objects<span class="k">)</span>
+<span class="w">    </span>
+<span class="nf">$(objects) </span><span class="o">:</span><span class="w"> </span><span class="n">defs</span>.<span class="n">h</span>
+</pre></div>
+</div>
+<p>One type of variable that do not require parentheses is the single character variable.</p>
+</section>
+<section id="simple-variable">
+<h3>Simple Variable<a class="headerlink" href="#simple-variable" title="Link to this heading"></a></h3>
+<p>A <em>simply expanded</em> variable is defined using ‘:=’ assignment operator. Any make variable references
+in the righthand side are expanded and the resulting text saved as the value of the variable upon
+reading the line from the <code class="docutils literal notranslate"><span class="pre">makefile</span></code>. The variable is not updated again however many times it is
+referenced.</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">MAKE_DEPEND</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span>-M
+</pre></div>
+</div>
+</section>
+<section id="recursive-variable">
+<h3>Recursive Variable<a class="headerlink" href="#recursive-variable" title="Link to this heading"></a></h3>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">$(object)</span></code> in the example above is a <em>recursively expanded</em> variable. Variables of this
+sort are defined by using ‘=’. For a <em>recursive variable</em> the righthandside is read without being
+expanded. The expansion of the variable happens when it is used. The variable is re-evaluated upon
+every time it is used. Consequently, the content of a <em>recursive variable</em> may change during
+the course of a <code class="docutils literal notranslate"><span class="pre">makefile</span></code>.</p>
+</section>
+<section id="conditional-variable">
+<h3>Conditional Variable<a class="headerlink" href="#conditional-variable" title="Link to this heading"></a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="c"># Put all generated files in the directory $(PROJECT_DIR)/bin.</span>
+<span class="nv">OUTPUT_DIR</span><span class="w"> </span><span class="o">?=</span><span class="w"> </span><span class="k">$(</span>PROJECT_DIR<span class="k">)</span>/bin
+</pre></div>
+</div>
+<p>The ‘?=’ operator is called the <em>conditional variable assignment operator</em>. Here the the assignment is
+performed only if the variable does not yet have a value.</p>
+</section>
+<section id="append-variable">
+<h3>Append variable<a class="headerlink" href="#append-variable" title="Link to this heading"></a></h3>
+<p>The append assignment operator is ‘+=’. This operator appends text to a variable. This operator is
+particularly useful for collecting values into a variable incrementally.</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">CPPFLAGS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>-DUSE_NEW_MALLOC<span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</section>
+<section id="target-variable">
+<h3>Target variable<a class="headerlink" href="#target-variable" title="Link to this heading"></a></h3>
+<p>You can define a variable for a specific target, such that the variable is valid only for the target:</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">gui.o</span><span class="o">:</span><span class="w"> </span><span class="n">CPPFLAGS</span> += -<span class="n">DUSE_NEW_MALLOC</span>=1
+<span class="nf">gui.o</span><span class="o">:</span><span class="w"> </span><span class="n">gui</span>.<span class="n">h</span>
+</pre></div>
+</div>
+<p>While the <em>gui.o</em> target is being processed, the valu of CPPFLAGS will contain -DUSE_NEW_MALLOC=1 in
+addition to its original contents. When the <em>gui.o</em> target is finished, CPPFLAGS will be set back to
+its original value. The general syntax for target-specific variables is:</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">target...</span><span class="o">:</span><span class="w"> </span><span class="n">variable</span> = <span class="n">value</span>
+<span class="nf">target...</span><span class="o">:</span><span class="w"> </span><span class="n">variable</span> := <span class="n">value</span>
+<span class="nf">target...</span><span class="o">:</span><span class="w"> </span><span class="n">variable</span> += <span class="n">value</span>
+<span class="nf">target...</span><span class="o">:</span><span class="w"> </span><span class="n">variable</span> ?= <span class="n">value</span>
+</pre></div>
+</div>
+</section>
+<section id="automatic-variables">
+<h3>Automatic variables<a class="headerlink" href="#automatic-variables" title="Link to this heading"></a></h3>
+<p>There are seven automatic variables. Automatic variables are set by <code class="docutils literal notranslate"><span class="pre">make</span></code> after a rules is matched.
+They provide access to elements from the target and prerequisite lists. It this way you don’t have
+to explictily specify any filenames.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Function</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>$&#64;</p></td>
+<td><p>The filename representing the target</p></td>
+</tr>
+<tr class="row-odd"><td><p>$%</p></td>
+<td><p>The filename element of an archive member specification</p></td>
+</tr>
+<tr class="row-even"><td><p>$&lt;</p></td>
+<td><p>The filename of the first prerequisite</p></td>
+</tr>
+<tr class="row-odd"><td><p>$?</p></td>
+<td><p>The names of all prerequisites that are newer than the target, separated by spaces</p></td>
+</tr>
+<tr class="row-even"><td><p>$^</p></td>
+<td><p>The filenames all the prerequisites, separated by spaces</p></td>
+</tr>
+<tr class="row-odd"><td><p>$+</p></td>
+<td><p>Similar to $^ except that $+ include duplicates</p></td>
+</tr>
+<tr class="row-even"><td><p>$*</p></td>
+<td><p>The stem of the target filename.</p></td>
+</tr>
+</tbody>
+</table>
+<p>These seven variables have variants that get just the file’s directory name or just the file name within
+the directory. The variant variables names are formed by appending ‘D’ or ‘F’. These variant variables are
+more than one character long and so must be enclosed in parentheses, i.e. $(&#64;D), $(&#64;F).
+See <a class="reference external" href="https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html">GNU Make Automatic variables</a></p>
+</section>
+</section>
+<section id="macro">
+<h2>Macro<a class="headerlink" href="#macro" title="Link to this heading"></a></h2>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">BIN</span><span class="w">    </span><span class="o">:=</span><span class="w"> </span>/usr/bin
+<span class="nv">PRINTF</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>BIN<span class="k">)</span>/printf
+<span class="nv">DF</span><span class="w">     </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>BIN<span class="k">)</span>/df
+<span class="nf">AWK    </span><span class="o">:</span>- <span class="k">$(</span><span class="nv">BIN</span><span class="k">)</span>/<span class="n">awk</span>
+
+<span class="cp">define free-space</span>
+<span class="w">    </span><span class="k">$(</span>PRINTF<span class="k">)</span><span class="w"> </span><span class="s2">&quot;Free disk space &quot;</span>
+<span class="w">    </span><span class="k">$(</span>DF<span class="k">)</span><span class="w"> </span>.<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">$(</span>AWK<span class="k">)</span><span class="w"> </span><span class="s1">&#39;NR == 2 { print $$4 }&#39;</span>
+<span class="cp">endef</span>
+</pre></div>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">define</span> <span class="pre">-</span> <span class="pre">endef</span></code> command we can define a multiline variable, a variable that contains a script.
+In the above example we have two-line script. With <code class="docutils literal notranslate"><span class="pre">define</span></code> the variable can contain embedded newlines.
+Conseqeuently, we call it a macro to disguish from a single line variable.</p>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
+<p>There is a range of functions define in <code class="docutils literal notranslate"><span class="pre">make</span></code>. Functions for transforming text is described in the
+<a class="reference external" href="https://www.gnu.org/software/make/manual/make.html#Functions">GNU Make documentation</a>. Functions are called
+just like variables, but often have arguments in addtion:</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">function-name</span> <span class="nv">arguments</span><span class="k">)</span>
+</pre></div>
+</div>
+<p>You can also define your own functions. Own-defined functions are invoked ved the <code class="docutils literal notranslate"><span class="pre">call</span></code> command. Here is
+an example from Managing Projects with GNU Make, defining a function to terminate a process:</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">AWK</span><span class="w">        </span><span class="o">:=</span><span class="w"> </span>awk
+<span class="nv">KILL</span><span class="w">       </span><span class="o">:=</span><span class="w"> </span><span class="nb">kill</span>
+<span class="nv">KILL_FLAGS</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span>-f
+<span class="nv">PS</span><span class="w">         </span><span class="o">:=</span><span class="w"> </span>ps
+<span class="nv">PS_FLAGS</span><span class="w">   </span><span class="o">:=</span><span class="w"> </span>-W
+<span class="nv">PS_FIELDS</span><span class="w">  </span><span class="o">:=</span><span class="w"> </span><span class="s2">&quot;9 47 100&quot;</span>
+
+<span class="c"># $(call kill-program, awk-pattern)</span>
+<span class="cp">define kill-program</span>
+<span class="w">    </span>@<span class="w"> </span><span class="k">$(</span>PS<span class="k">)</span><span class="w"> </span><span class="k">$(</span>PS_FLAGS<span class="k">)</span><span class="w"> </span><span class="p">|</span><span class="w">                                </span><span class="se">\</span>
+<span class="w">    </span><span class="k">$(</span>AWK<span class="w"> </span><span class="s1">&#39;BEGIN { FIELDWIDTHS = $(PS_FIELDS) }          \</span>
+<span class="s1">           /$1/ {                                        \</span>
+<span class="s1">                  print &quot;Killing &quot; $$3;                  \</span>
+<span class="s1">                  system( &quot;$(KILL) $(KILL_FLAGS) &quot; $$1 ) \</span>
+<span class="s1">                }&#39;</span>
+<span class="cp">endef</span>
+</pre></div>
+</div>
+<p>The function is called with the <code class="docutils literal notranslate"><span class="pre">call</span></code> command. Here we kill a vim process before compile a C-file:</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">%.o</span><span class="o">:</span><span class="w"> </span>%<span class="n">c</span>
+<span class="w">    </span><span class="k">$(</span>call<span class="w"> </span>kill-program,<span class="w"> </span>vim<span class="k">)</span>
+<span class="w">    </span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span><span class="k">$(</span>CFLAGS<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span>$&lt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">$@</span>
+</pre></div>
+</div>
+</section>
+<section id="rules">
+<h2>Rules<a class="headerlink" href="#rules" title="Link to this heading"></a></h2>
+<p>The rule governing the building of the hello world program was so called <em>explicit</em> rule. There are other
+types of rules as well, and we will be going through these now:</p>
+<ul class="simple">
+<li><p>explicit rules</p></li>
+<li><p>pattern rules</p></li>
+<li><p>implicit rules</p></li>
+</ul>
+<section id="explict-rules">
+<h3>Explict rules<a class="headerlink" href="#explict-rules" title="Link to this heading"></a></h3>
+<section id="wildcards">
+<h4>wildcards<a class="headerlink" href="#wildcards" title="Link to this heading"></a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">make</span></code> supports wildcards, also known as globbing.<code class="docutils literal notranslate"><span class="pre">make</span></code>’s wildcards are identical to the Bourne shell’s.
+Instead of listing all the files in a program explicitly, you can use wildcards together with automatic
+variables (We will going through automatic variables in a moment):</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">prog</span><span class="o">:</span><span class="w"> </span>*.<span class="n">c</span>
+<span class="w">    </span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">$@</span><span class="w"> </span>$^
+</pre></div>
+</div>
+</section>
+</section>
+<section id="phony-targets">
+<h3>phony targets<a class="headerlink" href="#phony-targets" title="Link to this heading"></a></h3>
+<p>A <em>phony target</em> are targets that do not represent files. Here is a phony target <code class="docutils literal notranslate"><span class="pre">clean</span></code>:</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">clean</span>
+
+<span class="nf">clean</span><span class="o">:</span>
+<span class="w">    </span>rm<span class="w"> </span>-f<span class="w"> </span>*.o
+</pre></div>
+</div>
+<p>This tells <code class="docutils literal notranslate"><span class="pre">make</span></code> that a target is not real file. Phony targets are always out of date. Consequently, the
+command will always be executed.</p>
+<p>Many <em>makefiles</em> include a set of standard phony targes. The table list these:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>target</p></th>
+<th class="head"><p>function</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">all</span></code></p></td>
+<td><p>Perform all tasks to build the application</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">install</span></code></p></td>
+<td><p>Create an installation of the application from the complied binaries</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">clean</span></code></p></td>
+<td><p>Delete the binary files generated from source</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">distclean</span></code></p></td>
+<td><p>Delete all the generated files that were not in the original distribution</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TAGS</span></code></p></td>
+<td><p>Create a tags table for use by editors</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">info</span></code></p></td>
+<td><p>Create GNU info files from their Texinfo sources</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">check</span></code></p></td>
+<td><p>Run any tests associated with this application</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<section id="empty-targets">
+<h4>empty targets<a class="headerlink" href="#empty-targets" title="Link to this heading"></a></h4>
+<p>An <em>empty target</em> is similar to phony targets; it is used to hold recipes for an action that you request
+explicitly. The purpose of the empty target file is to record when the rule’s recipe was last executed.
+It does so because one of the commands in the recipe is a <code class="docutils literal notranslate"><span class="pre">touch</span></code> command to update the target file.</p>
+<p>Here is an example:</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">print</span><span class="o">:</span><span class="w"> </span><span class="n">foo</span>.<span class="n">c</span> <span class="n">bar</span>.<span class="n">c</span>
+<span class="w">    </span>lpr<span class="w"> </span>-p<span class="w"> </span><span class="nv">$?</span>
+<span class="w">    </span>touch<span class="w"> </span>print
+</pre></div>
+</div>
+<p>The command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">print</span></code>  will execute the <code class="docutils literal notranslate"><span class="pre">lpr</span></code> command if one of the source file has changed since the
+last <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">print</span></code>. The automatic variable <code class="docutils literal notranslate"><span class="pre">$?</span></code> is used to print only those files that have changed.
+(We will discuss automatic variables in a moment)</p>
+</section>
+</section>
+<section id="pattern-rules">
+<h3>Pattern rules<a class="headerlink" href="#pattern-rules" title="Link to this heading"></a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">%.o </span><span class="o">:</span><span class="w"> </span>%.<span class="n">c</span>
+<span class="w">	</span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span><span class="k">$(</span>CFLAGS<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span>$&lt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">$@</span>
+</pre></div>
+</div>
+<p>A pattern rule looks like an ordinary rule, except that its target contains the character ‘%’. The target
+is considered a pattern for matching file names; the ‘%’ can match any nonempty substring, while other
+characters match only themselves. The shown rule ‘%.o : %.c’ says how to make any file <code class="docutils literal notranslate"><span class="pre">stem.o</span></code> from another
+file <code class="docutils literal notranslate"><span class="pre">stem.c</span></code></p>
+</section>
+<section id="implicit-rules">
+<h3>Implicit rules<a class="headerlink" href="#implicit-rules" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">make</span></code> has about 90 built-in implicit rules.  There are built-in pattern rules for C, C++, Pascal, Fortran,
+Modula, Texinfo, TEX, Emacs, Lisp, RCS and SCCS. The two last ones are version control systems. The implicit
+rules database can be listed with the command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>--print-data-base<span class="w"> </span><span class="c1"># This gives a long output!</span>
+</pre></div>
+</div>
+<p>The implicit rule for building an executable from object files looks like this:</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">%</span><span class="o">:</span><span class="w"> </span>%.<span class="n">o</span>
+<span class="c">#  commands to execute (built-in):</span>
+<span class="w">	</span><span class="k">$(</span>LINK.o<span class="k">)</span><span class="w"> </span>$^<span class="w"> </span><span class="k">$(</span>LOADLIBES<span class="k">)</span><span class="w"> </span><span class="k">$(</span>LDLIBS<span class="k">)</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">$@</span>
+</pre></div>
+</div>
+<p>A interesting note is that this rule is not part of the implicti rulebase on my Mac with
+make version 3.81, but it exists in the implicit rulebase on Linux with make version 4.3</p>
+</section>
+<section id="an-updated-hello-world-example-introducing-vpath">
+<h3>An updated “Hello World!” example - introducing vpath<a class="headerlink" href="#an-updated-hello-world-example-introducing-vpath" title="Link to this heading"></a></h3>
+<p>In the following example we have reworked “Hello world”-example. The source files reside in a subdirectory <code class="docutils literal notranslate"><span class="pre">src</span></code>.
+The printf statement is moved to a function hello(), which is defined in a new file <code class="docutils literal notranslate"><span class="pre">module.c</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>directory/
+ |-makefile
+ |-include/
+ |
+ |-src/-
+ |   |
+ |   |-hello.c
+ |   |
+ |   |-module.c
+ |
+ |-doc/
+</pre></div>
+</div>
+<p>module.c:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">hello</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Hello, world!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+</pre></div>
+</div>
+<p>hello.c:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="cpf">&lt;stdlib.h&gt;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">hello</span><span class="p">();</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">hello</span><span class="p">();</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+
+</pre></div>
+</div>
+<p>The new makefile includes phony targets and pattern rules. It it also depend upon so called implicit rules.</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">clean</span> <span class="n">all</span> <span class="n">install</span>
+
+<span class="cp">vpath %.c src</span>
+
+<span class="nf">%.o</span><span class="o">:</span><span class="w"> </span>%.<span class="n">c</span>
+<span class="w">	</span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span><span class="k">$(</span>CFLAGS<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span>$&lt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">$@</span>
+
+<span class="nf">hello</span><span class="o">:</span><span class="w"> </span><span class="n">hello</span>.<span class="n">o</span> <span class="n">module</span>.<span class="n">o</span>
+
+<span class="nf">clean</span><span class="o">:</span>
+<span class="w">	</span>rm<span class="w"> </span>*.o<span class="w"> </span>hello
+
+<span class="nf">install</span><span class="o">:</span><span class="w"> </span><span class="n">hello</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>./bin/
+<span class="w">	</span>cp<span class="w"> </span>hello<span class="w"> </span>./bin/
+
+<span class="nf">all</span><span class="o">:</span><span class="w"> </span><span class="n">hello</span>
+</pre></div>
+</div>
+<p>The phony targets are remade every time they are called like <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code>. We have a new directive <code class="docutils literal notranslate"><span class="pre">vpath</span></code>.
+This tells <code class="docutils literal notranslate"><span class="pre">make</span></code> to look for C-files in the src subdirectory. When <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">hello</span></code> is called, <code class="docutils literal notranslate"><span class="pre">make</span></code> searches
+the current directory for C-files, but none is found since they are all in the <code class="docutils literal notranslate"><span class="pre">src</span></code> subdirectory. With
+the <code class="docutils literal notranslate"><span class="pre">vpath</span></code>-directive, make goes on to search for C-files in <code class="docutils literal notranslate"><span class="pre">src</span></code>.</p>
+<p>Next we have a pattern rule. The <code class="docutils literal notranslate"><span class="pre">%</span></code> character match any sequence of zero or more characters. Here it
+matches the stem of the source filenames.</p>
+<p>Following the pattern rule we have a rule without a command line. When <code class="docutils literal notranslate"><span class="pre">make</span></code> look for how to make <code class="docutils literal notranslate"><span class="pre">hello</span></code>,
+it will go to the implicit rules database. There is approximately 90 different implicit rules in make.
+One of them is how to make a executable from binary object files:</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">%</span><span class="o">:</span><span class="w"> </span>%.<span class="n">o</span>
+<span class="c">#  commands to execute (built-in):</span>
+<span class="w">	</span><span class="k">$(</span>LINK.o<span class="k">)</span><span class="w"> </span>$^<span class="w"> </span><span class="k">$(</span>LOADLIBES<span class="k">)</span><span class="w"> </span><span class="k">$(</span>LDLIBS<span class="k">)</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">$@</span>
+</pre></div>
+</div>
+<p>This tells <code class="docutils literal notranslate"><span class="pre">make</span></code> to invoke the linker to link all the prerequisites together with possible other libraries
+to produce the target executable.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="motivation.html" class="btn btn-neutral float-left" title="Motivation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="exercise.html" class="btn btn-neutral float-right" title="Exercise" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Coderefinery.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

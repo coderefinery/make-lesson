@@ -1,0 +1,259 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exercise &mdash; A lesson about make 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2709fde1"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Resources" href="resources.html" />
+    <link rel="prev" title="Variables, Functions, Rules and a exampel with vpath" href="rules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            A lesson about make
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="motivation.html">Motivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">Variables, Functions, Rules and a exampel with vpath</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Exercise</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#objective">Objective</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#steps">Steps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-1">Example 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-2">Example 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-3">Example 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-4">Example 4</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html">Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">A lesson about make</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Exercise</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/exercise.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="exercise">
+<h1>Exercise<a class="headerlink" href="#exercise" title="Link to this heading"></a></h1>
+<section id="objective">
+<h2>Objective<a class="headerlink" href="#objective" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>To try out the <code class="docutils literal notranslate"><span class="pre">make</span></code> command on different makefiles.</p></li>
+</ul>
+</section>
+<section id="steps">
+<h2>Steps<a class="headerlink" href="#steps" title="Link to this heading"></a></h2>
+<p>In this exercise we will execute <code class="docutils literal notranslate"><span class="pre">make</span></code> on different makefiles.
+You will also edit an Makefile and try to create your own Makefile.</p>
+<section id="example-1">
+<h3>Example 1<a class="headerlink" href="#example-1" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Step 1</strong>: Logon on to a Linux system like Dardel</p></li>
+<li><p><strong>Step 2</strong>: Go to <a class="reference external" href="https://github.com/coderefinery/makefile-examples">makefile-examples</a> repository
+and clone the repository to your user space on the Linux system.</p></li>
+<li><p><strong>Step 3</strong>: Change to the subdirectory <code class="docutils literal notranslate"><span class="pre">make-examples</span></code>, list the files. You will see that there is
+4 makefile examples in the repository:</p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/coderefinery/makefile-examples.git
+<span class="nb">cd</span><span class="w"> </span>makefile-examples
+ls
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Step 4</strong>: Change to subdirectory <code class="docutils literal notranslate"><span class="pre">example_1</span></code>. Take a look at the <code class="docutils literal notranslate"><span class="pre">makefile</span></code> and execute make. You will see that <code class="docutils literal notranslate"><span class="pre">make</span></code> executes
+the command to build the executable. Test the executable and then remove it.</p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>example_1
+cat<span class="w"> </span>Makefile
+make
+./hello.exe
+rm<span class="w"> </span>hello.exe
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Step 5</strong>: Introduce an error in the <code class="docutils literal notranslate"><span class="pre">example_1</span></code> makefile. Open the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> in an editor and
+replace the tab in front of the command for the target with spaces. Save the file and execute
+<code class="docutils literal notranslate"><span class="pre">make</span></code> again. This time you get an error:<code class="docutils literal notranslate"><span class="pre">Makefile:2:</span> <span class="pre">***</span> <span class="pre">missing</span> <span class="pre">separator.</span>&#160; <span class="pre">Stop.</span></code></p></li>
+</ul>
+</section>
+<section id="example-2">
+<h3>Example 2<a class="headerlink" href="#example-2" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Step 1</strong>: Change directory to <code class="docutils literal notranslate"><span class="pre">example_2</span></code>. Take a look at the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> and execute <code class="docutils literal notranslate"><span class="pre">make</span></code>.
+See how different object files are created in the subdirectory.</p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># from subdirectory example_1</span>
+<span class="nb">cd</span><span class="w"> </span>../example_2
+ls
+cat<span class="w"> </span>Makefile
+make
+ls
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Step 2</strong>: Remove a object file and rerun <code class="docutils literal notranslate"><span class="pre">make</span></code>. Observe how <code class="docutils literal notranslate"><span class="pre">make</span></code> only build the missing
+object file and the rebuilds the executable since it is dependent on the newly built object file.</p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>module.o
+make
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Step 3</strong>: Remove the executable and rerun <code class="docutils literal notranslate"><span class="pre">make</span></code>. Observe that only the step to build the
+executable is taken. The object files that the executable is dependent on is untouched.</p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>hello.exe
+make
+</pre></div>
+</div>
+</section>
+<section id="example-3">
+<h3>Example 3<a class="headerlink" href="#example-3" title="Link to this heading"></a></h3>
+<p>Here you will try to create a makefile. Change into the subdirectory and observe that you have
+source files in the subdirectory <code class="docutils literal notranslate"><span class="pre">src</span></code>. How will you start out? The <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> in example 2
+build an executable from source files in a <code class="docutils literal notranslate"><span class="pre">src</span></code> subdirectory. Let us see if we can use it as a
+starting point.</p>
+<ul class="simple">
+<li><p><strong>Step 1</strong>: Copy the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> from example 2 and execute make. You see that you get an error message
+from make: <code class="docutils literal notranslate"><span class="pre">make:</span> <span class="pre">***</span> <span class="pre">No</span> <span class="pre">rule</span> <span class="pre">to</span> <span class="pre">make</span> <span class="pre">target</span> </code>hello.o’, needed by <code class="docutils literal notranslate"><span class="pre">hello.exe'.</span>&#160; <span class="pre">Stop.</span></code></p></li>
+<li><p><strong>Step 2</strong>: Open an editor (nano, vim) and replace all references to <code class="docutils literal notranslate"><span class="pre">hello</span></code> in the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>
+with <code class="docutils literal notranslate"><span class="pre">calculation</span></code>, both as a target as a dependency. Execute <code class="docutils literal notranslate"><span class="pre">make</span></code> again and observe the
+erro message: <code class="docutils literal notranslate"><span class="pre">src/calculation.c:4:10:</span> <span class="pre">fatal</span> <span class="pre">error:</span> <span class="pre">'example_math.h'</span> <span class="pre">file</span> <span class="pre">not</span> <span class="pre">found</span></code>
+This is an error message from the compilation of <code class="docutils literal notranslate"><span class="pre">calculation.c</span></code>. The compiler cannot find
+the include file <code class="docutils literal notranslate"><span class="pre">example_math.h</span></code> which resides in the subdirectory <code class="docutils literal notranslate"><span class="pre">include</span></code>.</p></li>
+<li><p><strong>Step 3</strong>: To find the include file, the compile needs to be told to look in the <code class="docutils literal notranslate"><span class="pre">include</span></code> subdirectory.
+We do this by adding the <em>CFLAGS=-I include</em> to the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>. Add it at the top of the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>, after
+the .PHONY statement, like this:</p></li>
+</ul>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">clean</span> <span class="n">all</span> <span class="n">install</span>
+<span class="nv">CFLAGS</span><span class="o">=</span>-I<span class="w"> </span>include
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Step 4</strong>: Rerun <code class="docutils literal notranslate"><span class="pre">make</span></code> and observe how the build of <code class="docutils literal notranslate"><span class="pre">calculation.c</span></code> completes, but the build
+of the executable fails due to missing of <code class="docutils literal notranslate"><span class="pre">module.o</span></code>:
+<code class="docutils literal notranslate"><span class="pre">make:</span> <span class="pre">***</span> <span class="pre">No</span> <span class="pre">rule</span> <span class="pre">to</span> <span class="pre">make</span> <span class="pre">target</span> <span class="pre">module.o,</span> <span class="pre">needed</span> <span class="pre">by</span> <span class="pre">calculation.exe.</span>&#160; <span class="pre">Stop.</span></code></p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>make
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Step 5</strong>: Edit the <code class="docutils literal notranslate"><span class="pre">makefile</span></code> again and replace <code class="docutils literal notranslate"><span class="pre">module.o</span></code> with <code class="docutils literal notranslate"><span class="pre">sin.o</span> <span class="pre">cos.o</span></code> as
+dependencies for <code class="docutils literal notranslate"><span class="pre">calculatione.exe</span></code>.</p></li>
+</ul>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="c"># The calculation.exe target in the Makefile</span>
+<span class="nf">calculation.exe</span><span class="o">:</span><span class="w"> </span><span class="n">calculation</span>.<span class="n">o</span> <span class="n">sin</span>.<span class="n">o</span> <span class="n">cos</span>.<span class="n">o</span>
+<span class="w">	</span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span><span class="k">$(</span>CFLAGS<span class="k">)</span><span class="w"> </span>$^<span class="w"> </span>-o<span class="w"> </span><span class="nv">$@</span>
+</pre></div>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>make
+ls
+./calculation.exe
+make<span class="w"> </span>clean
+make
+</pre></div>
+</div>
+</section>
+<section id="example-4">
+<h3>Example 4<a class="headerlink" href="#example-4" title="Link to this heading"></a></h3>
+<p>In this example the builds, the object files and the executable, ends up in its own subdirectory <code class="docutils literal notranslate"><span class="pre">bin</span></code>.
+This separates the source files and the top <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> from the binaries. This is very tidy and useful.
+Take a look at the make file, see how a function creates the necessary subdirectory, and how binaries
+are placed in an own subdirectory:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../example_4
+ls
+cat<span class="w"> </span>Makefile
+make
+touch<span class="w"> </span>src/cos.c<span class="w">  </span><span class="c1"># simulate a update of src/cos.c</span>
+make
+make<span class="w"> </span>clean
+ls
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rules.html" class="btn btn-neutral float-left" title="Variables, Functions, Rules and a exampel with vpath" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="resources.html" class="btn btn-neutral float-right" title="Resources" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Coderefinery.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
